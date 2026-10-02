@@ -1,6 +1,6 @@
 # sparring
 
-壁打ち用の Agent Skills セット。サービス企画・ゲームデザイン・小説プロットの3領域について、専門家役と1問ずつ対話しながら企画を詰める。SKILL.md 形式に対応した Claude Code / Codex / OpenCode / Kiro CLI / Antigravity CLI で動く。
+壁打ち用の Agent Skills セット。サービス企画・ゲームデザイン・小説プロット・調査分析の4領域について、専門家役と1問ずつ対話しながら企画や調査の設計を詰める。SKILL.md 形式に対応した Claude Code / Codex / OpenCode / Kiro CLI / Antigravity CLI で動く。
 
 ## 構成
 
@@ -9,19 +9,25 @@ skills/       スキル本体（各ツールにインストールするのはこ
   sparring-service/   サービス企画の壁打ち（引数: 業種）
   sparring-game/      ゲームデザインの壁打ち（引数: ジャンル）
   sparring-plot/      小説プロットの壁打ち（引数: エージェント名）
-agents/       役割定義（25本。スキルが実行時に読み込む）
+  sparring-research/  調査・分析の壁打ち（引数: 手法）
+agents/       役割定義（30本。スキルが実行時に読み込む）
   planner-*.md        業種別のサービス企画（EC／ヘルスケア／金融／教育／人材／ゲーム／飲食／旅行／不動産／コミュニティ／メディア／地域公共／BtoB SaaS）
   service-planner.md  サービス企画の汎用役
   gamedesigner-*.md   ジャンル別のゲームデザイン（ライフシム／アクション／RPG／経営シム／パズル／マルチプレイ）
   game-designer.md    ゲームデザインの汎用役
   novelist-*.md       ジャンル別の小説家（ライトノベル／一般文芸／ミステリ／SF・ファンタジー）
+  research-*.md       手法別の調査（市場・競合・技術のデスクリサーチ／学術・文献レビュー／データ分析・統計／定性調査・インタビュー・アンケート）
+  research-analyst.md 調査・分析の汎用役
 common-persona/  共通規範（役割定義が最初に読み込む）
   planner.md          サービス企画の共通規範
   gamedesigner.md     ゲームデザインの共通規範
   novelist.md         小説の共通規範
+  researcher.md       調査・分析の共通規範
 ```
 
 スキルは引数から `agents/` の役割定義を選んで Read し、その定義が指す共通規範も Read して、会話の中でその役を演じる。サブエージェントは使わないので、`agents/` を各ツールのエージェントとして登録する必要はない。
+
+`research-*.md` と `researcher.md` は、researchkit の `researchkit-sparring`（調査の前提を詰める工程）からも同じパスで読まれる。ファイル名を変えるときは、そちらの役の表も合わせること。
 
 ## インストール
 
@@ -71,9 +77,10 @@ Claude Code で `CLAUDE_CONFIG_DIR` を使って設定ディレクトリを分�
 ```
 /sparring-game rpg 成長が数値の水増しになりがちな JRPG を作っています
 /sparring-plot novelist-mystery 雪山の山荘で起きる密室殺人のプロットを相談したい
+/sparring-research market 中小企業向け勤怠 SaaS に参入するか決めるために市場を調べたい
 ```
 
-引数は日本語や略称でもよい（例: `飲食`、`d2c`、`ローグライト`）。省略すると、企画の内容から推定して一言確認してから始める。
+引数は日本語や略称でもよい（例: `飲食`、`d2c`、`ローグライト`、`インタビュー`）。省略すると、企画や調べたいことの内容から推定して一言確認してから始める。
 
 ## 注意
 
